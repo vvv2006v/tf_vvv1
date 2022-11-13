@@ -173,6 +173,20 @@ resource "aws_route53_record" "A" {
 }
 
 
+resource "aws_route53_record" "NS" {
+  allow_overwrite = true
+  name            = "fractal-academy.com"
+  ttl             = 60
+  type            = "NS"
+  zone_id         = aws_route53_zone.primary.zone_id
+
+  records = [
+    aws_route53_zone.primary.name_servers[0],
+    aws_route53_zone.primary.name_servers[1],
+    aws_route53_zone.primary.name_servers[2],
+    aws_route53_zone.primary.name_servers[3],
+  ]
+}
 resource "aws_ecs_service" "vvv2006v_service" {
   name            = "vvv2006v-service"                             # Naming our first service
   cluster         = "${aws_ecs_cluster.vvv2006v_cluster.id}"             # Referencing our created Cluster
